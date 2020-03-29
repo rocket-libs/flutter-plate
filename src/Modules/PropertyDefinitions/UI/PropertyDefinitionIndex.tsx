@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PropertyDefinitionPotter from "../Potter/PropertyDefinitionPotter";
 import PropertyDefinitionRepository from "../Potter/PropertyDefinitionRepository";
 import PropertyDefinition from "../Potter/PropertyDefinition";
@@ -7,19 +7,20 @@ import PotterStarter from "../../../Shared/Utility/Potter/PotterStarter";
 
 let potter: PropertyDefinitionPotter;
 export default function PropertyDefinitionIndex(){
-    usePotter();
-    return render();
-}
-
-
-const usePotter = () => {
+    const[started,setStarted] = useState(false);
     return  <>
                 <PotterStarter
-                    currentPotter={potter}
+                    currentPotter={null as unknown as PropertyDefinitionPotter}
                     newPotter={new PropertyDefinitionPotter(new PropertyDefinitionRepository(),new PropertyDefinition(),new PropertyDefinitionState())}
-                    onStarted={(ptr: PropertyDefinitionPotter) => potter = ptr} />
+                    onStarted={(startedPotter: PropertyDefinitionPotter) => {
+                        potter = startedPotter;
+                        setStarted(true);
+                    }} />
+                {started ? render() : null}
             </>
 }
+
+
 
 const render = () => {
     return  <div>
@@ -36,7 +37,7 @@ const render = () => {
                         Property Type:
                         <select onChange={e => {
                              const signature = potter.context.repository.propertySignature;
-                             signature.name = e.target.value;
+                             signature.type = e.target.value;
                              potter.pushToRepository({propertySignature: signature});
                         }}>
                             <option value="String">String</option>
