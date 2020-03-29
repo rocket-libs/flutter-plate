@@ -3,7 +3,6 @@ import NavigationPotter from "../Bloc/NavigationPotter";
 import NavigationRepository from '../Bloc/NavigationRepository';
 import NavigationInformation from '../Bloc/NavigationInformation';
 import NavigationState from '../Bloc/NavigationState';
-import "../../../Shared/LookAndFeel/CSS/flex.css";
 import NavigationStrings from '../Data/NavigationStrings';
 import BlocModelIndex from '../../BlocModels/UI/BlocModelIndex';
 

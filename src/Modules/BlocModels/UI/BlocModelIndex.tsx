@@ -13,27 +13,24 @@ interface IProps{
 let potter: BlocModelPotter;
 
 export default function BlocModelIndex(_props: IProps){
-    console.log(3434);
-    
-    
-    if(!potter){
-        potterStarter();
-    }
+    potterStarter();
     return render();
 }
 
 const potterStarter = () => {
     return  <>
                 <PotterStarter
-                    potter={new BlocModelPotter(new BlocModelRepository(),new BlocModel(),new BlocModelState())}
+                    currentPotter={potter}
+                    newPotter={new BlocModelPotter(new BlocModelRepository(),new BlocModel(),new BlocModelState())}
                     onStarted={(ptr: BlocModelPotter) => {
                         potter = ptr
                     }} />
+                    
             </>
 }
 
 const render = () => {
     return  <div>
-                Hi
+                <PropertyDefinitionIndex />
             </div>
 }

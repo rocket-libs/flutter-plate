@@ -1,7 +1,7 @@
 import PropertyDefinitionRepository from "./PropertyDefinitionRepository";
 import PropertyDefinition from "./PropertyDefinition";
-import ReactPotterState from "../../../Shared/Utility/Potter/ReactPotterState";
+import { PotterState } from "potter-nf";
 
-export default class PropertyDefinitionState extends ReactPotterState<PropertyDefinitionRepository,PropertyDefinition>{
+export default class PropertyDefinitionState extends PotterState<PropertyDefinitionRepository,PropertyDefinition>{
     
 }
