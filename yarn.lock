@@ -8169,6 +8169,13 @@ postcss@^7, postcss@^7.0.0, postcss@^7.0.1, postcss@^7.0.14, postcss@^7.0.16, po
     source-map "^0.6.1"
     supports-color "^6.1.0"
 
+potter-nf@^0.0.8:
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/potter-nf/-/potter-nf-0.0.8.tgz#a71edd3523c0d19bcd57a719395eb6c74333f94a"
+  integrity sha512-Glq31F7kfOrKue5j6rQYUReM7alsY2ikKmGP0clzduHGc/S9pyl3KHGf4Gu1hVB/u9rCa6d3GBi0uzZJezl+oQ==
+  dependencies:
+    shuttlerjs "^1.1.9"
+
 prelude-ls@~1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/prelude-ls/-/prelude-ls-1.1.2.tgz#21932a549f5e52ffd9a827f570e04be62a97da54"
@@ -9207,6 +9214,11 @@ shellwords@^0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/shellwords/-/shellwords-0.1.1.tgz#d6b9181c1a48d397324c84871efbcfc73fc0654b"
   integrity sha512-vFwSUfQvqybiICwZY5+DAWIPLKsWO31Q91JSKl3UYv+K5c2QRPzn0qzec6QPu1Qc9eHYItiP3NdJqNVqetYAww==
+
+shuttlerjs@^1.1.9:
+  version "1.1.9"
+  resolved "https://registry.yarnpkg.com/shuttlerjs/-/shuttlerjs-1.1.9.tgz#fb42e2141cfa58e0cf612d2704899f8caa1036c9"
+  integrity sha512-vbaDBo2TInQZQHEuIye0edzFUbZZrL7z+LZP9KxZ9jRwsp2W+iuM1Kshf4+ArXxXFIVwIz81KIS3EfyOKVQhMA==
 
 side-channel@^1.0.2:
   version "1.0.2"
