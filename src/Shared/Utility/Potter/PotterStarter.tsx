@@ -6,27 +6,31 @@ interface IProps<TRepository,TModel,TState extends PotterState<TRepository,TMode
     currentPotter: TPotter;
     newPotter: TPotter;
     onStarted: (potter: TPotter) => void;
+    onRerender: () => void;
 }
 
 
 
 export default function PotterStarter<TRepository,TModel,TState extends PotterState<TRepository,TModel>, TPotter extends Potter<TRepository,TModel,TState>>(props: IProps<TRepository,TModel,TState, TPotter>){
     const [potterChangeId, setPotterChangeId] = useState(0);
+    const potterInstance = props.currentPotter ?? props.newPotter;
     useEffect(() => {
         const initializePotter = () : () => void => {
-            const potterCleanup = props.newPotter.subscribe(() => setPotterChangeId(props.newPotter.context.changeId));
+            const potterCleanup = potterInstance.subscribe(() => setPotterChangeId(potterInstance.context.changeId));
             return function cleanup() {
                 potterCleanup();
             }
+        }
+        if(props.onRerender){
+            props.onRerender();
         }
         return initializePotter();
     },
     // eslint-disable-next-line 
     [potterChangeId])
-    if(props.currentPotter){
-        props.onStarted(props.currentPotter);
-    }else{
-        props.onStarted(props.newPotter);
+    if(!props.currentPotter){
+        props.onStarted(potterInstance);
+        potterInstance.broadcastContextChanged();
     }
     return <></>
 }
