@@ -1,4 +1,6 @@
+import PropertySignature from "../../PropertyDefinitions/Data/PropertySignature";
+
 export default class BlocModel{
     name: string = "";
-    classDefinition: string = "Yo";
+    propertySignatures: PropertySignature[] = [];
 }

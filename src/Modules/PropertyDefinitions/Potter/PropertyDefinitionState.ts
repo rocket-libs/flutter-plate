@@ -15,9 +15,12 @@ export default class PropertyDefinitionState extends PotterState<PropertyDefinit
     sortedDataTypes = () => this.context.repository.datatypes.sort();
 
     addToList = () => {
-        const properties = this.context.model.propertySignatures;
-        properties.push(this.context.repository.propertySignature);
+        const propertiesSignatures = this.context.model.propertySignatures;
+        propertiesSignatures.push(this.context.repository.propertySignature);
         this.potter.pushToRepository({propertySignature: new PropertySignature()});
-        this.potter.pushToModel({propertySignatures: properties});
+        this.potter.pushToModel({propertySignatures: propertiesSignatures});
+        this.onPropertiesChange(this.context.model.propertySignatures);
     }
+
+    onPropertiesChange: (propertySignatures: PropertySignature[]) => void = (_) => {};
 }

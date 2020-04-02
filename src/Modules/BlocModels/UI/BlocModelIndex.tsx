@@ -7,6 +7,7 @@ import PotterStarter from '../../../Shared/Utility/Potter/PotterStarter';
 import PropertyDefinitionIndex from '../../PropertyDefinitions/UI/PropertyDefinitionIndex';
 import ClassNameIndex from '../../ClassName/UI/ClassNameIndex';
 import BlocModelClass from './BlocModelClass';
+import PropertySignature from '../../PropertyDefinitions/Data/PropertySignature';
 
 interface IProps{
 
@@ -34,7 +35,10 @@ const render = () => {
                 <ClassNameIndex 
                     style={{margin:'auto',width:'100%',marginBottom:'20px'}}
                     onNameChange={(name: string) => potter.pushToModel({name: name})} />
-                <PropertyDefinitionIndex />
+                <PropertyDefinitionIndex
+                    onPropertiesChange={(propertySignatures: PropertySignature[]) => {
+                        potter.pushToModel({propertySignatures: propertySignatures});
+                    }} />
                 <BlocModelClass
                     potter={potter} />
             </div>

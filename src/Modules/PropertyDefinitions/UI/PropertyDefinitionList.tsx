@@ -17,12 +17,16 @@ export default function PropertyDefinitionList(props: IProps){
 
 const table = () => {
     return  <table>
-                <th>
-                    Property Name
-                </th>
-                <th>
-                    Property Type
-                </th>
+                <thead>
+                    <tr>
+                        <th>
+                            Property Name
+                        </th>
+                        <th>
+                            Property Type
+                        </th>
+                    </tr>
+                </thead>
                 {tableRows()}
             </table>
 }
@@ -35,7 +39,7 @@ const tableRows = () => {
 
 const tableCells = (propertySignature: PropertySignature) => {
     const cellStyle = {padding:'5px',border:'solid 1px'} as CSSProperties;
-    return  <tr>
+    return  <tr key={propertySignature.name}>
                 <td style={cellStyle}>{propertySignature.name}</td>
                 <td style={cellStyle}>{propertySignature.type}</td>
             </tr>

@@ -6,15 +6,23 @@ import PropertyDefinitionState from "../Potter/PropertyDefinitionState";
 import PotterStarter from "../../../Shared/Utility/Potter/PotterStarter";
 import PropertyDefinitionForm from "./PropertyDefinitionForm";
 import PropertyDefinitionList from "./PropertyDefinitionList";
+import PropertySignature from "../Data/PropertySignature";
+
+interface IProps{
+    onPropertiesChange: (propertyDefinitions: PropertySignature[]) => void;
+}
 
 let potter: PropertyDefinitionPotter;
-export default function PropertyDefinitionIndex(){
+export default function PropertyDefinitionIndex(props: IProps){
     const[contextId,setContextId] = useState(0);
     return  <>
                 <PotterStarter
                     currentPotter={potter as PropertyDefinitionPotter}
                     newPotter={new PropertyDefinitionPotter(new PropertyDefinitionRepository(),new PropertyDefinition(),new PropertyDefinitionState())}
-                    onStarted={(startedPotter: PropertyDefinitionPotter) => potter = startedPotter}
+                    onStarted={(startedPotter: PropertyDefinitionPotter) => {
+                         potter = startedPotter
+                         potter.state.onPropertiesChange = props.onPropertiesChange;
+                    }}
                     onRerender={() => setContextId(potter.context.changeId)}/>
                 {contextId ? render() : null}
             </>

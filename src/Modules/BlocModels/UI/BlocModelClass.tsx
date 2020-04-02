@@ -8,6 +8,7 @@ interface IProps{
 
 export default function BlocModelClass(props: IProps){
     return <Multiline
-                text={props.potter.context.model.classDefinition} />
+                text={props.potter.state.classDefinition()}
+                rows={props.potter.context.model.propertySignatures.length + 10} />
 
 }
