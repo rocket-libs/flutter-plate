@@ -1,5 +1,5 @@
 import React, { CSSProperties } from 'react';
-import PropertyDefinitionPotter from "../Potter/PropertyDefinitionPotter";
+import PropertyDefinitionPotter from "../Potter/ClassDefinitionPotter";
 import PropertySignature from '../Data/PropertySignature';
 
 interface IProps{

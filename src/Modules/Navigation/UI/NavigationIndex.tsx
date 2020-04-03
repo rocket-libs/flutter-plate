@@ -5,6 +5,7 @@ import NavigationInformation from '../Bloc/NavigationInformation';
 import NavigationState from '../Bloc/NavigationState';
 import NavigationStrings from '../Data/NavigationStrings';
 import BlocModelIndex from '../../BlocModels/UI/BlocModelIndex';
+import ModelIndex from '../../Model/UI/ModelIndex';
 
 interface IProps{
 
@@ -59,6 +60,8 @@ const content = () => {
         switch(potter.context.repository.activeRoute){
             case NavigationStrings.blocModel:
                 return <BlocModelIndex />
+            case NavigationStrings.model:
+                return <ModelIndex />
             default:
                 throw new Error(`Unknown route '${potter.context.repository.activeRoute}'`);
         }
@@ -67,7 +70,7 @@ const content = () => {
 
 const sideBar = () => {
     return potter.context.repository.routes.map((singleRoute) => {
-        return  <div key={singleRoute}>
+        return  <div key={singleRoute} style={{borderTop:'1px #DDD solid',borderBottom:'1px #DDD solid', marginTop:'7px'}}>
                     <input type="button" value={singleRoute} onClick={() => potter.pushToRepository({activeRoute: singleRoute})} />
                 </div>
     });

@@ -4,10 +4,9 @@ import BlocModelRepository from '../Potter/BlocModelRepository';
 import BlocModel from '../Potter/BlocModel';
 import BlocModelState from '../Potter/BlocModelState';
 import PotterStarter from '../../../Shared/Utility/Potter/PotterStarter';
-import PropertyDefinitionIndex from '../../PropertyDefinitions/UI/PropertyDefinitionIndex';
-import ClassNameIndex from '../../ClassName/UI/ClassNameIndex';
+import PropertyDefinitionIndex from '../../ClassDefinitions/UI/ClassDefinitionIndex';
 import BlocModelClass from './BlocModelClass';
-import PropertySignature from '../../PropertyDefinitions/Data/PropertySignature';
+import ClassDefinition from '../../ClassDefinitions/Potter/ClassDefinition';
 
 interface IProps{
 
@@ -32,12 +31,9 @@ export default function BlocModelIndex(_props: IProps){
 
 const render = () => {
     return  <div>
-                <ClassNameIndex 
-                    style={{margin:'auto',width:'100%',marginBottom:'20px'}}
-                    onNameChange={(name: string) => potter.pushToModel({name: name})} />
                 <PropertyDefinitionIndex
-                    onPropertiesChange={(propertySignatures: PropertySignature[]) => {
-                        potter.pushToModel({propertySignatures: propertySignatures});
+                    onClassDefinitionChanged={(classDefinition: ClassDefinition) => {
+                        potter.pushToModel({propertySignatures: classDefinition.propertySignatures, name: classDefinition.name});
                     }} />
                 <BlocModelClass
                     potter={potter} />

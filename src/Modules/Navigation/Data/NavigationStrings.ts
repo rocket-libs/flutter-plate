@@ -1,5 +1,6 @@
 const NavigationStrings={
-    blocModel : "Bloc Model"
+    blocModel : "Bloc Model",
+    model: "Model",
 };
 
 export default NavigationStrings;
