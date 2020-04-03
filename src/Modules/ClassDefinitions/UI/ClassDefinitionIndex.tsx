@@ -4,7 +4,6 @@ import PropertyDefinitionRepository from "../Potter/ClassDefinitionRepository";
 import ClassDefinition from "../Potter/ClassDefinition";
 import PropertyDefinitionState from "../Potter/ClassDefinitionState";
 import PotterStarter from "../../../Shared/Utility/Potter/PotterStarter";
-import PropertyDefinitionList from "./ClassDefinitionList";
 import FileContentFetcher from "../../../Shared/Components/FileContentFetcher";
 
 interface IProps{
@@ -33,9 +32,5 @@ const render = () => {
     return  <>
                 <FileContentFetcher
                     onFileContentsFetched={(contents: string) => potter.state.onFileContentChanged(contents)} />
-                {potter.context.model.name ? `Class Name: ${potter.context.model.name}` : null}
-                <PropertyDefinitionList
-                    style={{width:'50%',marginTop:"20px"}}
-                    potter={potter} />
             </>
 }

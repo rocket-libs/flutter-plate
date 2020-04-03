@@ -9,15 +9,19 @@ export default class ModelState extends PotterState<ModelRepository,Model>{
     }
 
     classDefinition = () => {
-        let block = `class ${this.nameOfClass()} extends Model<${this.nameOfClass()}>{`
-        block += this.propertyDeclarations();
-        block += this.classConstructor();
-        block += this.classMerger();
-        block += "\n\n" + this.singleFromMapMethod();
-        block += "\n\n" + this.toJsonMethod();
-        block += "\n}";
-        block += this.fieldNamesClass();
-        return block;
+        if(this.hasClassDeclaration()){
+            let block = `class ${this.nameOfClass()} extends Model<${this.nameOfClass()}>{`
+            block += this.propertyDeclarations();
+            block += this.classConstructor();
+            block += this.classMerger();
+            block += "\n\n" + this.singleFromMapMethod();
+            block += "\n\n" + this.toJsonMethod();
+            block += "\n}";
+            block += this.fieldNamesClass();
+            return block;
+        }else{
+            return "";
+        }
     }
 
     private propertyDeclarations = () : string => {
@@ -118,5 +122,7 @@ export default class ModelState extends PotterState<ModelRepository,Model>{
         return firstLetter.toUpperCase() + str.substr(1);
     }
 
+
+    private hasClassDeclaration = () => this.context.model.name && this.hasProperties();
     private hasProperties = () => this.context.model.propertySignatures && this.context.model.propertySignatures.length > 0;
 }
