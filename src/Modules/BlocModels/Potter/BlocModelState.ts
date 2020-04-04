@@ -11,9 +11,16 @@ export default class BlocModelState extends PotterState<BlocModelRepository,Bloc
         }
     }
 
+    private imports = () : string => {
+        return "import 'package:hello_dailies/Mk2/Shared/Bloc/AppState.dart';"
+            + "\nimport 'package:hello_dailies/Mk2/Shared/Bloc/BlocModelBase.dart';"
+            + "\nimport 'package:hello_dailies/Shared/Structure/Mergeable.dart';"
+    }
+
     private classBlock = () : string => {
         const className = this.nameOfClass();
-        let block = `class ${className} extends BlocModelBase<${className}>{`;
+        let block = this.imports();
+        block += `\n\nclass ${className} extends BlocModelBase<${className}>{`;
         block += this.propertyDeclarations();
         block += this.classConstructor();
         block += this.classMerger();
@@ -42,7 +49,7 @@ export default class BlocModelState extends PotterState<BlocModelRepository,Bloc
         
 
         constructorString += `Function(AppState) onAppStateChanged`;
-        constructorString += "});";
+        constructorString += "})";
         constructorString += "\n\t: super(onAppStateChanged: onAppStateChanged);"
         return constructorString;
     }
@@ -53,7 +60,7 @@ export default class BlocModelState extends PotterState<BlocModelRepository,Bloc
             let newModelString = `\n\t\tfinal newModel = ${this.nameOfClass()}(`;
             for (const propertySignature of this.context.model.propertySignatures) {
                 const newPropertyName = this.newPropertyNameGetter(propertySignature.name);
-                mergerString += `${newPropertyName}, `;
+                mergerString += `${propertySignature.type} ${newPropertyName}, `;
 
                 newModelString += `\n\t\t\t${propertySignature.name}: resolveValue(${propertySignature.name},${newPropertyName}),`;
             }

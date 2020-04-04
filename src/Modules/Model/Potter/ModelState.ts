@@ -10,7 +10,8 @@ export default class ModelState extends PotterState<ModelRepository,Model>{
 
     classDefinition = () => {
         if(this.hasClassDeclaration()){
-            let block = `class ${this.nameOfClass()} extends Model<${this.nameOfClass()}>{`
+            let block = this.imports();
+            block += `\n\nclass ${this.nameOfClass()} extends Model<${this.nameOfClass()}>{`
             block += this.propertyDeclarations();
             block += this.classConstructor();
             block += this.classMerger();
@@ -22,6 +23,13 @@ export default class ModelState extends PotterState<ModelRepository,Model>{
         }else{
             return "";
         }
+    }
+
+    private imports = () : string => {
+        return "import 'package:hello_dailies/Mk2/Shared/Data/Database/Model.dart';"
+            + "\nimport 'package:hello_dailies/Shared/Data/Guid.dart';"
+            + "\nimport 'package:hello_dailies/services/utility/MapReader.dart';"
+            + "\nimport 'package:hello_dailies/Shared/Structure/Mergeable.dart';"
     }
 
     private propertyDeclarations = () : string => {
