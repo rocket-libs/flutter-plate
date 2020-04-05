@@ -67,7 +67,8 @@ export default class ModelState extends PotterState<ModelRepository,Model>{
 
                 newModelString += `\n\t\t\t${propertySignature.name}: resolveValue(${propertySignature.name},${newPropertyName}),`;
             }
-            newModelString = newModelString.substr(0,newModelString.length - 1);
+
+            newModelString += `\n\t\t\tid: this.id`;
             newModelString += `\n\t\t);`
             
             mergerString = mergerString.substr(0,mergerString.length - 2);
@@ -101,9 +102,11 @@ export default class ModelState extends PotterState<ModelRepository,Model>{
     private toJsonMethod = () : string => {
         let block = "\t@override\n\tMap<String, dynamic> toJson() {";
         block += "\n\t\treturn <String,dynamic> {";
-        block += `\n\t\t\tidFieldName: id,`;
+        block += `\n\t\t\tidFieldName: id.value,`;
         for (const propertySignature of this.context.model.propertySignatures) {
-            block += `\n\t\t\t${this.nameOfFieldsClass()}.${propertySignature.name}: ${propertySignature.name},`
+            const isGuid = propertySignature.type.toLowerCase() === "guid";
+            const value = isGuid ? `${propertySignature.name}.value` : propertySignature.name;
+            block += `\n\t\t\t${this.nameOfFieldsClass()}.${propertySignature.name}: ${value},`
         }
         block = block.substr(0,block.length - 1);
         block += "\n\t\t};"
