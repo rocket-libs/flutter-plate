@@ -1,7 +1,7 @@
 version: '3.3'
 services:
-    webapp:
-        container_name: "nyingi/flutter-plate"
+    flutter-plate:
+        container_name: "flutter-plate"
         build: . 
         ports:
             - "8000:80"

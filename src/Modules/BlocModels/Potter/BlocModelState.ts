@@ -19,7 +19,7 @@ export default class BlocModelState extends PotterState<BlocModelRepository,Bloc
 
     private classBlock = () : string => {
         const className = this.nameOfClass();
-        let block = this.imports();
+        let block =`${this.imports()}`;
         block += `\n\nclass ${className} extends BlocModelBase<${className}>{`;
         block += this.propertyDeclarations();
         block += this.classConstructor();

@@ -10,7 +10,7 @@ export default class ModelState extends PotterState<ModelRepository,Model>{
 
     classDefinition = () => {
         if(this.hasClassDeclaration()){
-            let block = this.imports();
+            let block = `${this.imports()}`;
             block += `\n\nclass ${this.nameOfClass()} extends Model<${this.nameOfClass()}>{`
             block += this.propertyDeclarations();
             block += this.classConstructor();
@@ -63,7 +63,7 @@ export default class ModelState extends PotterState<ModelRepository,Model>{
             let newModelString = `\n\t\tfinal newModel = new ${this.nameOfClass()}(`;
             for (const propertySignature of this.context.model.propertySignatures) {
                 const newPropertyName = this.newPropertyNameGetter(propertySignature.name);
-                mergerString += `${newPropertyName}, `;
+                mergerString += `${propertySignature.type} ${newPropertyName}, `;
 
                 newModelString += `\n\t\t\t${propertySignature.name}: resolveValue(${propertySignature.name},${newPropertyName}),`;
             }
