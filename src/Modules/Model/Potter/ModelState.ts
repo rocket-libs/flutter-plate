@@ -29,7 +29,7 @@ export default class ModelState extends PotterState<ModelRepository,Model>{
         return "import 'package:hello_dailies/Mk2/Shared/Data/Database/Model.dart';"
             + "\nimport 'package:hello_dailies/Shared/Data/Guid.dart';"
             + "\nimport 'package:hello_dailies/services/utility/MapReader.dart';"
-            + "\nimport 'package:hello_dailies/Shared/Structure/Mergeable.dart';"
+            + "\nimport 'package:blocstar/DataManagement/Mergeable.dart';"
     }
 
     private propertyDeclarations = () : string => {

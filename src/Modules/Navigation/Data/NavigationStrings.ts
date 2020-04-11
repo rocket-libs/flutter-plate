@@ -1,5 +1,5 @@
 const NavigationStrings={
-    blocModel : "Bloc Model",
+    blocContext : "Bloc Context",
     model: "Model",
 };
 

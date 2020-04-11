@@ -4,7 +4,7 @@ import NavigationRepository from '../Bloc/NavigationRepository';
 import NavigationInformation from '../Bloc/NavigationInformation';
 import NavigationState from '../Bloc/NavigationState';
 import NavigationStrings from '../Data/NavigationStrings';
-import BlocModelIndex from '../../BlocModels/UI/BlocModelIndex';
+import BlocModelIndex from '../../BlocContexts/UI/BlocModelIndex';
 import ModelIndex from '../../Model/UI/ModelIndex';
 
 interface IProps{
@@ -58,7 +58,7 @@ const content = () => {
         return <div>Pick a Route</div>
     }else{
         switch(potter.context.repository.activeRoute){
-            case NavigationStrings.blocModel:
+            case NavigationStrings.blocContext:
                 return <BlocModelIndex />
             case NavigationStrings.model:
                 return <ModelIndex />

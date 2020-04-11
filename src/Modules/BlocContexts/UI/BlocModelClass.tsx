@@ -1,9 +1,9 @@
 import React from 'react';
 import Multiline from '../../../Shared/Components/Multiline';
-import BlocModelPotter from '../Potter/BlocModelPotter';
+import BlocContextPotter from '../Potter/BlocContextPotter';
 
 interface IProps{
-    potter: BlocModelPotter;
+    potter: BlocContextPotter;
 }
 
 export default function BlocModelClass(props: IProps){
