@@ -105,7 +105,8 @@ export default class ModelState extends PotterState<ModelRepository,Model>{
         block += `\n\t\t\tidFieldName: id?.value ?? Guid.defaultValue,`;
         for (const propertySignature of this.context.model.propertySignatures) {
             const isGuid = propertySignature.type.toLowerCase() === "guid";
-            const value = isGuid ? `${propertySignature.name}.value` : propertySignature.name;
+            const nullableFlag = propertySignature.isNullable ? "?" : "";
+            const value = isGuid ? `${propertySignature.name}${nullableFlag}.value` : propertySignature.name;
             block += `\n\t\t\t${this.nameOfFieldsClass()}.${propertySignature.name}: ${value},`
         }
         block = block.substr(0,block.length - 1);
@@ -120,7 +121,10 @@ export default class ModelState extends PotterState<ModelRepository,Model>{
         block += `\n\t\treturn new ${this.nameOfClass()}(`;
         block += `\n\t\t\tid: mapReader.getGuid(idFieldName),`;
         for (const propertySignature of this.context.model.propertySignatures) {
-            block += `\n\t\t\t${propertySignature.name}: mapReader.get${this.getPascalCased(propertySignature.type)}(${this.nameOfFieldsClass()}.${propertySignature.name}),`
+            const qualifiedType = propertySignature.isObject 
+                ? `single<${propertySignature.type}>`
+                : propertySignature.type;
+            block += `\n\t\t\t${propertySignature.name}: mapReader.get${this.getPascalCased(qualifiedType)}(${this.nameOfFieldsClass()}.${propertySignature.name}),`
         }
         block = block.substr(0,block.length - 1);
         block += "\n\t\t);"
