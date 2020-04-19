@@ -1,6 +1,7 @@
 import { PotterState } from "potter-nf";
 import ModelRepository from "./ModelRepository";
 import Model from "./Model";
+import PropertySignature from "../../ClassDefinitions/Data/PropertySignature";
 
 export default class ModelState extends PotterState<ModelRepository,Model>{
     onFileContentChanged = (fileContent: string) => {
@@ -102,17 +103,31 @@ export default class ModelState extends PotterState<ModelRepository,Model>{
     private toJsonMethod = () : string => {
         let block = "\t@override\n\tMap<String, dynamic> toJson() {";
         block += "\n\t\treturn <String,dynamic> {";
-        block += `\n\t\t\tidFieldName: id?.value ?? Guid.defaultValue,`;
+        block += `\n\t\t\tidFieldName: id?.value,`;
         for (const propertySignature of this.context.model.propertySignatures) {
             const isGuid = propertySignature.type.toLowerCase() === "guid";
-            const nullableFlag = propertySignature.isNullable ? "?" : "";
-            const value = isGuid ? `${propertySignature.name}${nullableFlag}.value` : propertySignature.name;
+            console.log(isGuid);
+            
+            let lineGetter : (propertySignature: PropertySignature) => string = this.getGenericLine;
+            if(isGuid){
+                lineGetter = this.getGuidLine;
+            }
+            const value = lineGetter(propertySignature);
             block += `\n\t\t\t${this.nameOfFieldsClass()}.${propertySignature.name}: ${value},`
         }
         block = block.substr(0,block.length - 1);
         block += "\n\t\t};"
         block += "\n\t}";
         return block;
+    }
+
+    private getGuidLine(propertySignature: PropertySignature) : string {
+        const nullableFlag = propertySignature.isNullable ? "?" : "";
+        return `${propertySignature.name}${nullableFlag}.value`;
+    }
+
+    private getGenericLine(propertySignature: PropertySignature) : string {
+        return propertySignature.name;
     }
 
     private singleFromMapMethod = () : string => {
