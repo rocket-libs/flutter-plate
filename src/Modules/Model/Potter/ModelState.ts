@@ -102,7 +102,7 @@ export default class ModelState extends PotterState<ModelRepository,Model>{
     private toJsonMethod = () : string => {
         let block = "\t@override\n\tMap<String, dynamic> toJson() {";
         block += "\n\t\treturn <String,dynamic> {";
-        block += `\n\t\t\tidFieldName: id?.value ?? Guid.defaultGuid,`;
+        block += `\n\t\t\tidFieldName: id?.value ?? Guid.defaultValue,`;
         for (const propertySignature of this.context.model.propertySignatures) {
             const isGuid = propertySignature.type.toLowerCase() === "guid";
             const value = isGuid ? `${propertySignature.name}.value` : propertySignature.name;
