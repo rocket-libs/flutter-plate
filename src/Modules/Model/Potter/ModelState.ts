@@ -99,18 +99,31 @@ export default class ModelState extends PotterState<ModelRepository,Model>{
     }
 
     private nameOfFieldsClass = () : string => `${this.nameOfClass()}FieldNames`;
+    private isOfType = (propertySignature: PropertySignature,testType: string) : boolean => {
+        return propertySignature.type === testType;
+    }
 
     private toJsonMethod = () : string => {
         let block = "\t@override\n\tMap<String, dynamic> toJson() {";
         block += "\n\t\treturn <String,dynamic> {";
         block += `\n\t\t\tidFieldName: id?.value,`;
+        
+
         for (const propertySignature of this.context.model.propertySignatures) {
-            const isGuid = propertySignature.type.toLowerCase() === "guid";
-            console.log(isGuid);
+            const isGuid = this.isOfType(propertySignature,"Guid");
+            const isObject = propertySignature.isObject;
+            const isDate = this.isOfType(propertySignature,"DateTime");
             
-            let lineGetter : (propertySignature: PropertySignature) => string = this.getGenericLine;
+
+            let lineGetter : (propertySignature: PropertySignature) => string;
             if(isGuid){
                 lineGetter = this.getGuidLine;
+            }else if(isObject){
+                lineGetter = this.getObjectLine;
+            }else if (isDate){
+                lineGetter = this.getDateLine;
+            }else{
+                lineGetter = this.getGenericLine;
             }
             const value = lineGetter(propertySignature);
             block += `\n\t\t\t${this.nameOfFieldsClass()}.${propertySignature.name}: ${value},`
@@ -130,16 +143,36 @@ export default class ModelState extends PotterState<ModelRepository,Model>{
         return propertySignature.name;
     }
 
+    private getObjectLine(propertySignature: PropertySignature) : string {
+        const nullableFlag = propertySignature.isNullable ? "?" : "";
+        return `${propertySignature.name}${nullableFlag}.toJson()`;
+    }
+
+    private getDateLine(propertySignature: PropertySignature) : string {
+        const nullableFlag = propertySignature.isNullable ? "?" : "";
+        return `${propertySignature.name}${nullableFlag}.toString()`;
+    }
+
+    private getStringList(propertySignature: PropertySignature): string {
+        return `(map[${propertySignature.name}] as List<dynamic>)?.map((value) => value.toString())?.toList(),`;
+    }
+
     private singleFromMapMethod = () : string => {
         let block = `\t@override\n\t${this.nameOfClass()} singleFromMap(Map<String, dynamic> map) {`;
         block += "\n\t\tfinal mapReader = new MapReader(map);";
         block += `\n\t\treturn new ${this.nameOfClass()}(`;
         block += `\n\t\t\tid: mapReader.getGuid(idFieldName),`;
         for (const propertySignature of this.context.model.propertySignatures) {
+            const isStringList = this.isOfType(propertySignature,"List<String>");
             const qualifiedType = propertySignature.isObject 
                 ? `single<${propertySignature.type}>`
                 : propertySignature.type;
-            block += `\n\t\t\t${propertySignature.name}: mapReader.get${this.getPascalCased(qualifiedType)}(${this.nameOfFieldsClass()}.${propertySignature.name}),`
+            block += `\n\t\t\t${propertySignature.name}: `;
+            let lineValue = `mapReader.get${this.getPascalCased(qualifiedType)}(${this.nameOfFieldsClass()}.${propertySignature.name}),`
+            if(isStringList){
+                lineValue = this.getStringList(propertySignature);
+            }
+            block += lineValue;
         }
         block = block.substr(0,block.length - 1);
         block += "\n\t\t);"
